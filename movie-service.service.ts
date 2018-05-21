@@ -32,11 +32,12 @@ export class MovieServiceService {
       .pipe(
       // catchError(this.handleError('getMovies', [])),
       mergeMap((response: any) => {
-        let movies: Movie[] = [];
+        
         // Checks if server returned a good response
         let isSuccess: boolean = response.Response === "True";
         if (isSuccess) {
           let jsonMovies: any[] = response.Search;
+
 
           let movieIds: string[] = jsonMovies.map(jsonMovie => {
             return jsonMovie.imdbID as string;
@@ -47,11 +48,12 @@ export class MovieServiceService {
           });
 
           return observableForkJoin(observables)
-            .pipe(
-            map(movies => {
-              return movies;
-            }));
-        }
+
+        } 
+        // else {
+        //   let movies: Movie[] = [];
+        //   return movies as Observable<Observable<Movie[]>>;
+        // }
       }
       ));
   }
