@@ -1,0 +1,23 @@
+<div *ngIf="movie">
+
+  <ul>
+    <li> <span>Title: </span> {{ movie.title }} </li>
+    <li> <span>imdbID: </span>{{ movie.imdbID }} </li>
+    <li> <span>release date: </span>{{ movie.released }} </li> 
+    <li> <span>runtime: </span>{{ movie.runtime }} </li>
+    <li> <span>genre: </span>{{ movie.genre }} </li>
+    <li> <span>metascore: </span>{{ movie.metascore }} </li>
+    <li> <span>imdbRating: </span>{{ movie.imdbRating }} </li>
+    <li> <span>plot: </span>{{ movie.plot }} </li>
+    <li> <rating [(ngModel)]="rate" [max]="10" [readonly]=false (onLeave)=onRatingSelect($event)></rating></li>
+    <!-- <li> <span>poster: </span> </li> -->
+
+    <div *ngIf="posterExists">
+      <br />
+      <img src="{{movie.posterUrl}}">
+    </div>
+    <div><button (click)="goBack()">Back</button></div>
+   
+
+  </ul>
+</div>

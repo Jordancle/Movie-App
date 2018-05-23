@@ -1,0 +1,18 @@
+
+.content-wrapper {
+  border: 1px solid #ddd; 
+  border-radius: 4px; 
+  padding-left: 10px; 
+  margin-bottom: 10px;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pgaination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
