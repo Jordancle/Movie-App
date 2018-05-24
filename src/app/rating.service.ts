@@ -11,10 +11,15 @@ import { catchError, map, tap, mergeMap } from 'rxjs/operators';
 })
 export class RatingService {
 
+  // Get back the locally stored myRatings.json to put in ratings
   ratings: Rating[] = [];
 
-  constructor() {
-
+  constructor(
+  ) {
+    let i: any;
+    if ((i = JSON.parse(localStorage.getItem("myRatings"))) != null) {
+      this.ratings = i;
+    }
   }
 
   getRating(imdbID: string): number {
@@ -28,20 +33,39 @@ export class RatingService {
     return 0;
   }
 
-  saveRating(title: string ,imdbID: string, userRating: number) {
+  saveRating(title: string ,imdbID: string, userRating: number, plot: string, posterUrl: string) {
     let rating: Rating = new Rating;
     rating.title = title;
     rating.imdbID = imdbID;
     rating.userRating = userRating;
+    rating.plot = plot;
+    rating.posterUrl = posterUrl;
     let i: number;
     if ((i = this.findRatingIndex(imdbID)) != -1) {
-      this.ratings[i] = rating;
+      this.ratings.splice(i,1);
+      this.ratings.push(rating);
     } else {
       this.ratings.push(rating);
     }
-    console.log(this.ratings);
+    for (var j = this.ratings.length-1; j > 0; j--) {
+      if (this.ratings[j].userRating >= this.ratings[j-1].userRating) {
+        var temp = this.ratings[j-1];
+        this.ratings[j-1] = this.ratings[j];
+        this.ratings[j] = temp;
+      }
+    }
+    localStorage.setItem('myRatings', JSON.stringify(this.ratings));
   }
 
+  deleteRating(imdbID: string) {
+    this.ratings.splice(this.findRatingIndex(imdbID),1);
+    localStorage.setItem('myRatings', JSON.stringify(this.ratings));
+  }
+
+  deleteAllRatings() {
+    this.ratings.splice(0);
+    localStorage.removeItem("myRatings");
+  }
 
   findRatingIndex(imdbID: string): number {
     if (this.ratings != undefined) {
@@ -53,5 +77,6 @@ export class RatingService {
     }
     return -1;
   }
+
 }
 

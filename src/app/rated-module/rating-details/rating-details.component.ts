@@ -1,36 +1,42 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { MovieServiceService } from 'src/app/movie-service.service';
 import { Movie } from '../../movie';
+import { Rating } from '../../rating';
 
-import { MovieSearchComponent } from '../movie-search/movie-search.component';
+import { RatedComponent } from '../rated/rated.component';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination/pagination.component';
 
 @Component({
-  selector: 'app-movie-dummy',
-  templateUrl: './movie-dummy.component.html',
-  styleUrls: ['./movie-dummy.component.css']
+  selector: 'app-rating-details',
+  templateUrl: './rating-details.component.html',
+  styleUrls: ['./rating-details.component.css']
 })
-export class MovieDummyComponent implements OnInit {
+export class RatingDetailsComponent implements OnInit {
 
 
   // @Input allows the dummy component to receive a 'movie' from where
   // it is called within the parent html file
   // movie-search.component.html
-  @Input() movie: Movie;
+  @Input() rating: Rating;
+  @Output() deleteRating= new EventEmitter<string>();
   posterExists: boolean;
   rate: number;
 
-  constructor(private movieService: MovieServiceService) { }
+  constructor() { }
 
   ngOnInit() {
-    if (this.movie.posterUrl == "N/A") {
+
+    this.rate = this.rating.userRating;
+    if (this.rating.posterUrl == "N/A") {
       this.posterExists = false;
     } else {
       this.posterExists = true;
     }
-    this.rate = this.movie.userRating;
-    // this.getMovie();
-    // this.getMovies(searchKey);
+  }
+
+  onDeleteRating() {
+    this.deleteRating.emit(this.rating.imdbID);
   }
 
   // getMovie(): void {

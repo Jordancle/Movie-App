@@ -21,7 +21,7 @@ h2 {
     color: rgb(0, 0, 0);
     margin-bottom: 0;
 }
-  nav a {
+  nav button {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 1.5em;
     padding: 50px 100px;
@@ -31,14 +31,14 @@ h2 {
     background-color: #eee;
     border-radius: 4px;
   }
-  nav a:visited, a:link {
+  nav button:visited, button:link {
     color: #607D8B;
   }
-  nav a:hover {
+  nav button:hover {
     color: #039be5;
     background-color: #CFD8DC;
   }
-  nav a.active {
+  nav button.active {
     color: #039be5;
   }
   input {

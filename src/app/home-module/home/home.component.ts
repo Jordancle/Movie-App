@@ -25,10 +25,15 @@ export class HomeComponent implements OnInit {
   onEnter(searchKey: string) {
     this.searchKey = searchKey;
     //this.router.navigate(['/search/' + this.searchKey + '/1']);
-    this.router.navigate(['search'], { queryParams: { searchKey: this.searchKey, page: 1 } })
+    this.router.navigate(['search'], { queryParams: { searchKey: this.searchKey, page: 1 } });
   }
 
   onKey(searchKey: string) {
+    let url = this.router.createUrlTree(['search'], { queryParams: { searchKey: this.searchKey, page: 1 } }).toString();
     this.searchKey = searchKey;
+  }
+
+  onClick() {
+    this.onEnter(this.searchKey);
   }
 }

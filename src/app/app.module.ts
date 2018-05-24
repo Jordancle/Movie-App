@@ -9,7 +9,7 @@ import { SearchModuleModule } from './search-module/search-module.module';
 
 import { HomeModuleModule } from './home-module/home-module.module';
 import { DetailsModuleModule } from './details-module/details-module.module';
-
+import { RatedModule } from './rated-module/rated.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AlertModule } from 'ngx-bootstrap';
@@ -28,6 +28,7 @@ import { FormsModule } from '@angular/forms';
     SearchModuleModule,
     HomeModuleModule,
     DetailsModuleModule,
+    RatedModule,
     HttpClientModule,
     AlertModule.forRoot(),
   ],

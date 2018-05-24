@@ -61,7 +61,7 @@ export class DetailsComponent implements OnInit {
   }
 
   onRatingSelect(rating: number) {
-    this.ratingService.saveRating(this.movie.title, this.movie.imdbID, this.rate);
+    this.ratingService.saveRating(this.movie.title, this.movie.imdbID, this.rate, this.movie.plot, this.movie.posterUrl);
   }
 
 }

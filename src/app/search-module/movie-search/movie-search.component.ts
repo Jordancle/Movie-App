@@ -18,6 +18,8 @@ export class MovieSearchComponent implements OnInit {
   page: any;
   loading: boolean;
   totalItems: any;
+  loaded: any = 0;
+  isSuccess: boolean;
 
   constructor(
     private movieService: MovieServiceService,
@@ -28,44 +30,47 @@ export class MovieSearchComponent implements OnInit {
 
   ngOnInit() {
     // Get paramters from the URL
-
-    // ============= Doing this would cause pageChanged to trigger twice causing the corresponding page to not highlight 
     this.route.queryParams.subscribe(params => {
       this.searchKey = params['searchKey'];
       this.page = parseInt(params['page']);
       this.getMovies(this.searchKey, this.page);
     });
-    // =============
-    // this.searchKey = this.route.snapshot.paramMap.get('searchKey');
-    // this.page = this.route.snapshot.paramMap.get('page');
-
-    // Call this.onEnter here so that when user goes Back(),
-    // the search results will be called up again
-    // if (this.searchKey != null) {
-    //   this.onEnter(this.searchKey);
-    // }
-
-    // Use subscribe to trigger event when ever subject emits something
-    // this.movieService.pageChangedSubject
-    //   .subscribe(page => {
-    //     this.gotoMovies(this.searchKey, this.page);
-    //   });
 
     // Use subscribe to trigger event when ever subject emits something
     this.movieService.totalResultsSubject
       .subscribe(totalResults => {
         this.totalItems = totalResults;
       });
+
+    this.movieService.loadedSubject
+      .subscribe(loaded => {
+        this.loaded = loaded;
+      })
+
   }
 
 
   getMovies(searchKey: string, page: string) {
+    this.isSuccess = false;
+    this.loaded = 0;
     this.loading = true;
-    this.movieService.getMovies(searchKey, page)
-      .subscribe(movies => {
+    this.movies = [];
+    let obs: any = this.movieService.getMovies(searchKey, page)
+      .subscribe(
+      movies => {
         this.movies = movies;
-        this.loading = false;   // Indicate done loading after movies are loaded
-      });
+        console.log("succcess");
+        this.isSuccess = true;
+      },
+      error => {
+        console.log("error");
+      },
+      () => {
+        console.log("complete");
+        this.loading = false; // Indicate done loading after movies are loaded
+      }
+    );
+    console.log(obs.closed);
   }
 
   // New results are only fetched when the ENTER key is pushed

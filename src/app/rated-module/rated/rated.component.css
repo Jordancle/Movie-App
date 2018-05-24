@@ -34,3 +34,22 @@ nav a:hover {
     background-color: rgb(103, 106, 255);
 
 }
+
+button {
+    font-size: 1em;
+    color: black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: inline-block;
+    background-color: rgb(179, 180, 255);
+    padding: 2px 4px;
+    border-radius: 5px;
+    margin-top: 5px;
+    text-decoration: none;
+    margin-left: 1em;
+  }
+
+button:hover {
+    color: white;
+    background-color: rgb(103, 106, 255);
+
+}
