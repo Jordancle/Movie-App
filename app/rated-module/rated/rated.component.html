@@ -1,0 +1,13 @@
+<h4>
+    Rated Movies</h4>
+
+<div>
+  <button (click)="goBack()">Back</button>
+  <button (click)="onDeleteAll()">Delete All</button>
+</div>
+
+<ul>
+  <li *ngFor="let rating of ratings">
+    <app-rating-details [rating]='rating' (deleteRating)="onDeleteRating($event)"></app-rating-details>
+  </li>
+</ul>
