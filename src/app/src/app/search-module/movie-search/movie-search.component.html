@@ -1,0 +1,17 @@
+<h4>
+  Movie Search</h4>
+<input #searchBox (keyup.enter)="onEnter(searchBox.value)" value="{{searchKey}}" />
+<nav>
+  <a routerLink='/home'>Home</a>
+  <a routerLink='/rated'>See Rated Movies</a>
+</nav>
+<h3 *ngIf="loading; else elseBlock">Loading... </h3>
+<ng-template #elseBlock>
+    <app-page [currentPage]='page' [totalItems]='totalItems' (pageChanged)="onPageChanged($event)"></app-page>
+  <ul>
+    <li *ngFor="let movie of movies">
+      <app-movie-dummy [movie]='movie'></app-movie-dummy>
+    </li>
+  </ul>
+</ng-template>
+<!-- <app-page [currentPage]='page' [totalItems]='totalItems' (pageChanged)="onPageChanged($event)"></app-page> -->

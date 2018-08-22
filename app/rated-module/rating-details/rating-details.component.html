@@ -1,0 +1,15 @@
+<nav><a routerLink="/movie/{{rating.imdbID}}"> {{ rating.title }}</a></nav>
+<div>
+  <p>
+    <rating [(ngModel)]="rating.userRating" [max]="10" [readonly]=true></rating>
+  </p>
+  <body>
+    <span>plot: </span> {{ rating.plot }}
+  </body>
+</div>
+<div *ngIf="posterExists">
+  <a routerLink="/movie/{{rating.imdbID}}">
+    <img src="{{rating.posterUrl}}" style="width:128px"> </a>
+  </div>
+  <div><button (click)="onDeleteRating()">Delete Rating</button></div>
+<br />
