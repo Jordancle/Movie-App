@@ -1,10 +1,14 @@
 <nav><a routerLink="/movie/{{movie.imdbID}}"> {{ movie.title }}</a></nav>
 <div>
+  <p>
+    <rating [(ngModel)]="rate" [max]="10" [readonly]=true></rating>
+  </p>
   <body>
-    <span>plot: </span> {{ movie.plot }}</body>
-  </div>
+    <span>plot: </span> {{ movie.plot }}
+  </body>
+</div>
 <div *ngIf="posterExists">
   <a routerLink="/movie/{{movie.imdbID}}">
     <img src="{{movie.posterUrl}}" style="width:128px"> </a>
-</div>
+  </div>
 <br />

@@ -8,4 +8,5 @@ export class Movie {
     imdbRating: string;
     plot: string;
     posterUrl: string;
+    userRating: number;
 }

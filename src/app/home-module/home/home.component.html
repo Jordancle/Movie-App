@@ -1,6 +1,7 @@
 <h1>{{title}}</h1>
 <h2>{{description}}</h2>
+<input #searchBox (keyup.enter)="onEnter(searchBox.value)" (keyup)="onKey(searchBox.value)" />
 <nav>
-  <a routerLink="/search">Search</a>
+  <button (click)="onClick()">Search</button>
   <!-- <a routerLink="/details">Details</a> -->
 </nav>

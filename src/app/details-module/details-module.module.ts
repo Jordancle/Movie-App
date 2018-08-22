@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { DetailsModuleRoutingModule } from './/details-module-routing.module';
 import { DetailsComponent } from './details/details.component';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RatingModule } from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
     CommonModule,
     DetailsModuleRoutingModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    RatingModule.forRoot()
   ],
   declarations: [DetailsComponent]
 })

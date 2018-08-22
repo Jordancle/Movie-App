@@ -1,43 +1,72 @@
 import { Injectable } from '@angular/core';
 
 import { Movie } from './movie';
+import { Rating } from './rating';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, forkJoin as observableForkJoin } from 'rxjs';
-import { catchError, map, tap, mergeMap } from 'rxjs/operators';
+import { Observable, of, forkJoin as observableForkJoin, Subject, from } from 'rxjs';
+import { catchError, map, tap, mergeMap, switchMap, merge } from 'rxjs/operators';
+
+import { RatingService } from './rating.service';
+import { observable } from 'rxjs/internal/symbol/observable';
+// import { EmptyObservable } from 'rxjs/observable/EmptyObservable';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieServiceService {
 
-  searchKey: string;
+  // searchKey: string;
+  // pageNum: number;
+  totalResults: number = 0;
+  loaded: number = 0;
+  loadedSubject = new Subject();
+
+  totalResultsSubject = new Subject();
+  pageChangedSubject = new Subject();
+
+  goodResults: boolean;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private ratingService: RatingService
   ) { }
+
+  // setPage(num: number) {
+  //   this.pageNum = num;
+  //   this.pageChangedSubject.next(num);
+  // }
+
+  // Once API returns totalResults, this subject
+  // emits the number of results
+  setTotalResults(totalResults: number) {
+    this.totalResults = totalResults;
+    this.totalResultsSubject.next(this.totalResults);
+  }
 
   // Method to store search key so that results will not dissapear
   // when the page changes
-  saveKey(searchKey: string) {
-    this.searchKey = searchKey;
-  }
+  // saveKey(searchKey: string) {
+  //   this.searchKey = searchKey;
+  // }
 
   // Return the key back to the component
-  getKey(): string {
-    return this.searchKey;
-  }
+  // getKey(): string {
+  //   return this.searchKey;
+  // }
 
-  getMovies(searchKey: string): Observable<Movie[]> {
-    return this.http.get<Movie[]>("http://www.omdbapi.com/?apikey=91c3e55a&s=" + searchKey)
+  getMovies(searchKey: string, page: string): Observable<Movie[]> {
+    this.loaded = 0;
+    return this.http.get<Movie[]>("http://www.omdbapi.com/?apikey=91c3e55a&s=" + searchKey + "&page=" + page)
       .pipe(
-      // catchError(this.handleError('getMovies', [])),
-      mergeMap((response: any) => {
+      // use switch map to cancel old request
+      switchMap((response: any) => {
         
         // Checks if server returned a good response
         let isSuccess: boolean = response.Response === "True";
+        this.goodResults = isSuccess;
         if (isSuccess) {
           let jsonMovies: any[] = response.Search;
-
+          this.setTotalResults(response.totalResults);
 
           let movieIds: string[] = jsonMovies.map(jsonMovie => {
             return jsonMovie.imdbID as string;
@@ -46,14 +75,13 @@ export class MovieServiceService {
           let observables = movieIds.map(id => {
             return this.getMovie(id);
           });
-
-          return observableForkJoin(observables)
-
-        } 
-        // else {
-        //   let movies: Movie[] = [];
-        //   return movies as Observable<Observable<Movie[]>>;
-        // }
+          return observableForkJoin(observables);
+        } else {
+          this.setTotalResults(0);
+          let foo = from<Movie[]>([]);
+          // let foo = new Observable<Movie[]>();
+          return foo;
+        }
       }
       ));
   }
@@ -78,6 +106,9 @@ export class MovieServiceService {
           movie.imdbRating = response.imdbRating;
           movie.plot = response.Plot;
           movie.posterUrl = response.Poster;
+          movie.userRating = this.ratingService.getRating(movie.imdbID);
+          this.loaded++;
+          this.loadedSubject.next(this.loaded);
           return movie;
         }
       })

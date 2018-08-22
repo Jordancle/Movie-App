@@ -9,6 +9,7 @@
     <li> <span>metascore: </span>{{ movie.metascore }} </li>
     <li> <span>imdbRating: </span>{{ movie.imdbRating }} </li>
     <li> <span>plot: </span>{{ movie.plot }} </li>
+    <li> <rating [(ngModel)]="rate" [max]="10" [readonly]=false (onLeave)=onRatingSelect($event)></rating></li>
     <!-- <li> <span>poster: </span> </li> -->
 
     <div *ngIf="posterExists">
