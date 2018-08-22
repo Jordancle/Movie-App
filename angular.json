@@ -23,11 +23,7 @@
               "src/assets"
             ],
             "styles": [
-<<<<<<< HEAD
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-=======
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
->>>>>>> 2505b06a67d550f56d5de01bfbf2d0483d884bc3
               "src/styles.css"
             ],
             "scripts": []
