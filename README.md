@@ -1,6 +1,9 @@
 # MovieApp
 
+I created this project to practice development using Angular. This app allows users to display movie information received from the Open Movie Database API using HTTP requests.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
+
+![](Demonstration.gif)
 
 ## Development server
 
